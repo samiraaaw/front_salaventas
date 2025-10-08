@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { MockProductsService } from '../../../../shared/services/mock-products.services.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   // Datos mock de promociones
   promotions = [
     { 
-      //image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop',
       image: 'assets/images/banners/banner3.jpg',
       title: 'Rebajas de Temporada',
       subtitle: 'Hasta 50% de descuento en productos seleccionados',
@@ -40,107 +39,9 @@ export class HomeComponent implements OnInit {
     { id: 6, name: 'Deportes', icon: '⚽', count: 167, image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=300&h=300&fit=crop' }
   ];
 
-  // Productos mock
-  products = [
-    {
-      id: 1,
-      name: 'Chaqueta de Cuero Premium',
-      price: 89990,
-      oldPrice: 129990,
-      image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop',
-      categoria: 'Ropa',
-      sucursal: 'Santiago Centro',
-      discount: 30,
-      rating: 4.5,
-      isNew: true
-    },
-    {
-      id: 2,
-      name: 'Zapatillas Deportivas Running',
-      price: 59990,
-      oldPrice: 79990,
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
-      categoria: 'Calzado',
-      sucursal: 'Providencia',
-      discount: 25,
-      rating: 4.8,
-      isNew: false
-    },
-    {
-      id: 3,
-      name: 'Reloj Inteligente Smartwatch',
-      price: 129990,
-      oldPrice: 179990,
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
-      categoria: 'Electrónica',
-      sucursal: 'Las Condes',
-      discount: 28,
-      rating: 4.6,
-      isNew: true
-    },
-    {
-      id: 4,
-      name: 'Mochila Ejecutiva Premium',
-      price: 45990,
-      oldPrice: 65990,
-      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
-      categoria: 'Accesorios',
-      sucursal: 'Ñuñoa',
-      discount: 30,
-      rating: 4.3,
-      isNew: false
-    },
-    {
-      id: 5,
-      name: 'Auriculares Bluetooth Premium',
-      price: 79990,
-      oldPrice: 99990,
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-      categoria: 'Electrónica',
-      sucursal: 'Maipú',
-      discount: 20,
-      rating: 4.7,
-      isNew: true
-    },
-    {
-      id: 6,
-      name: 'Chaqueta Deportiva Impermeable',
-      price: 69990,
-      oldPrice: 99990,
-      image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=400&h=400&fit=crop',
-      categoria: 'Deportes',
-      sucursal: 'La Florida',
-      discount: 30,
-      rating: 4.4,
-      isNew: false
-    },
-    {
-      id: 7,
-      name: 'Lámpara de Escritorio LED',
-      price: 34990,
-      oldPrice: 49990,
-      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop',
-      categoria: 'Hogar',
-      sucursal: 'Vitacura',
-      discount: 30,
-      rating: 4.2,
-      isNew: false
-    },
-    {
-      id: 8,
-      name: 'Bolso de Mano Elegante',
-      price: 54990,
-      oldPrice: 79990,
-      image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=400&fit=crop',
-      categoria: 'Accesorios',
-      sucursal: 'Santiago Centro',
-      discount: 31,
-      rating: 4.5,
-      isNew: true
-    }
-  ];
-
-  filteredProducts = [...this.products];
+  // Productos cargados desde el servicio mock
+  products: any[] = [];
+  filteredProducts: any[] = [];
   currentSlide = 0;
 
   // Filtros
@@ -151,8 +52,24 @@ export class HomeComponent implements OnInit {
     sortBy: 'featured'
   };
 
+  constructor(private mockProductsService: MockProductsService) {}
+
   ngOnInit(): void {
     this.startCarousel();
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.mockProductsService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+        this.filteredProducts = [...products];
+        console.log('✅ Productos cargados:', products.length);
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar productos:', err);
+      }
+    });
   }
 
   startCarousel(): void {
@@ -213,12 +130,9 @@ export class HomeComponent implements OnInit {
 
   filterByType(type: string): void {
     // Aquí puedes agregar lógica para filtrar por tipo de producto
-    // Por ejemplo, agregar un nuevo filtro o navegar a una sección específica
     if (type === 'economia-circular') {
-      // Filtrar productos de economía circular
       this.filters.category = 'Economía Circular';
     } else if (type === 'sala-ventas') {
-      // Filtrar productos de sala de ventas
       this.filters.category = 'Sala de Ventas';
     }
     this.applyFilters();

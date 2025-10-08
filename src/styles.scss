@@ -159,3 +159,71 @@ $font-primary: 'Roboto', sans-serif;
     @include typography(1rem, 700);
   }
 }
+/* Agregar al final de tu archivo styles.scss global */
+
+/* SweetAlert2 Custom Styles - Bootstrap Icons Support */
+.swal2-icon.swal2-info,
+.swal2-icon.swal2-warning,
+.swal2-icon.swal2-success,
+.swal2-icon.swal2-error {
+  border-width: 3px !important;
+}
+
+/* Asegurar que los iconos de Bootstrap Icons funcionen en SweetAlert */
+.swal2-html-container i.bi {
+  font-style: normal;
+  display: inline-block;
+}
+
+/* Mejorar aspecto de checkboxes en formularios de SweetAlert */
+.swal2-checkbox {
+  margin: 1rem 0;
+}
+
+.swal2-checkbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Animación suave para el popup */
+.swal2-show {
+  animation: swal2-show 0.3s !important;
+}
+
+@keyframes swal2-show {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Toast personalizado */
+.swal2-toast {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .swal2-popup {
+    width: 95% !important;
+    padding: 1.5rem !important;
+  }
+
+  .swal2-title {
+    font-size: 1.5rem !important;
+  }
+
+  .swal2-html-container {
+    font-size: 0.95rem !important;
+  }
+
+  .btn {
+    padding: 0.65rem 1.25rem !important;
+    font-size: 0.95rem !important;
+  }
+}
