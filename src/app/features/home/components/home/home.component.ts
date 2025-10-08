@@ -1,280 +1,236 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-
-import { ProductsHomeComponent } from '../../../../shared/components/products-home/components/products-home/products-home.component';
-import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
-import { CarouselProductsComponent } from '../../../../shared/components/carousel-products/carousel-products.component';
-import { BannerComponent } from '../../../../shared/components/banner/banner.component';
-
-import { Product } from '../../../products/models/product.model';
-import { ProductApiService } from '../../../general/services/product-api.service';
-import { first, switchMap } from 'rxjs';
-import { ProductApi } from '../../../products/models/ProductApi.model';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ProductsHomeComponent,
-    CarouselComponent,
-    BannerComponent,
-    CarouselProductsComponent,
-  ],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+export class HomeComponent implements OnInit {
+  // Datos mock de promociones
+  promotions = [
+    { 
+      //image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop',
+      image: 'assets/images/banners/banner3.jpg',
+      title: 'Rebajas de Temporada',
+      subtitle: 'Hasta 50% de descuento en productos seleccionados',
+      buttonText: 'Ver ofertas',
+      link: '/productos'
+    },
+    { 
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop',
+      title: 'Nueva Colección',
+      subtitle: 'Descubre las últimas tendencias',
+      buttonText: 'Explorar',
+      link: '/productos'
+    }
+  ];
 
+  // Categorías destacadas
+  categories = [
+    { id: 1, name: 'Ropa', icon: '👔', count: 245, image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&h=300&fit=crop' },
+    { id: 2, name: 'Calzado', icon: '👟', count: 128, image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=300&h=300&fit=crop' },
+    { id: 3, name: 'Accesorios', icon: '👜', count: 89, image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=300&h=300&fit=crop' },
+    { id: 4, name: 'Electrónica', icon: '📱', count: 156, image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=300&h=300&fit=crop' },
+    { id: 5, name: 'Hogar', icon: '🏠', count: 203, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=300&h=300&fit=crop' },
+    { id: 6, name: 'Deportes', icon: '⚽', count: 167, image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=300&h=300&fit=crop' }
+  ];
 
-export class HomeComponent implements OnInit, AfterViewInit {
-    
-  //Filtros a Utilizar      
-      filters = {
-        search: '',
-        minPrice: null as number | null,
-        maxPrice: null as number | null,
+  // Productos mock
+  products = [
+    {
+      id: 1,
+      name: 'Chaqueta de Cuero Premium',
+      price: 89990,
+      oldPrice: 129990,
+      image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop',
+      categoria: 'Ropa',
+      sucursal: 'Santiago Centro',
+      discount: 30,
+      rating: 4.5,
+      isNew: true
+    },
+    {
+      id: 2,
+      name: 'Zapatillas Deportivas Running',
+      price: 59990,
+      oldPrice: 79990,
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+      categoria: 'Calzado',
+      sucursal: 'Providencia',
+      discount: 25,
+      rating: 4.8,
+      isNew: false
+    },
+    {
+      id: 3,
+      name: 'Reloj Inteligente Smartwatch',
+      price: 129990,
+      oldPrice: 179990,
+      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
+      categoria: 'Electrónica',
+      sucursal: 'Las Condes',
+      discount: 28,
+      rating: 4.6,
+      isNew: true
+    },
+    {
+      id: 4,
+      name: 'Mochila Ejecutiva Premium',
+      price: 45990,
+      oldPrice: 65990,
+      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop',
+      categoria: 'Accesorios',
+      sucursal: 'Ñuñoa',
+      discount: 30,
+      rating: 4.3,
+      isNew: false
+    },
+    {
+      id: 5,
+      name: 'Auriculares Bluetooth Premium',
+      price: 79990,
+      oldPrice: 99990,
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
+      categoria: 'Electrónica',
+      sucursal: 'Maipú',
+      discount: 20,
+      rating: 4.7,
+      isNew: true
+    },
+    {
+      id: 6,
+      name: 'Chaqueta Deportiva Impermeable',
+      price: 69990,
+      oldPrice: 99990,
+      image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=400&h=400&fit=crop',
+      categoria: 'Deportes',
+      sucursal: 'La Florida',
+      discount: 30,
+      rating: 4.4,
+      isNew: false
+    },
+    {
+      id: 7,
+      name: 'Lámpara de Escritorio LED',
+      price: 34990,
+      oldPrice: 49990,
+      image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop',
+      categoria: 'Hogar',
+      sucursal: 'Vitacura',
+      discount: 30,
+      rating: 4.2,
+      isNew: false
+    },
+    {
+      id: 8,
+      name: 'Bolso de Mano Elegante',
+      price: 54990,
+      oldPrice: 79990,
+      image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=400&fit=crop',
+      categoria: 'Accesorios',
+      sucursal: 'Santiago Centro',
+      discount: 31,
+      rating: 4.5,
+      isNew: true
+    }
+  ];
 
-        //constantes ocupadas para inicializar los filtros en el ngInit
-        sucursal: '',
-        estado: '',
-        producto: '',
+  filteredProducts = [...this.products];
+  currentSlide = 0;
 
-        rubroId: null as number | null,
-        metalId: null as number | null,
-        productoId: null as number | null,
-        estPrendaId: null as number | null
-      };
+  // Filtros
+  filters = {
+    search: '',
+    category: '',
+    priceRange: 'all',
+    sortBy: 'featured'
+  };
 
-      //Listas que se ocupan para mapear en frontend
-      estadosList: {id:number;name:string}[] = []
-      sucursalesList: { id: number; name: string }[] = [];
-      productosList: {id: number; name:string}[] = [];
+  ngOnInit(): void {
+    this.startCarousel();
+  }
 
-      products: ProductApi[] = [];
-      filteredProducts: ProductApi[] = [];
+  startCarousel(): void {
+    setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % this.promotions.length;
+    }, 5000);
+  }
 
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+  }
 
-      // 3. PROMOCIONES PARA EL BANNER
-      promotions = [
-        { image: 'assets/images/banners/banner1.jpg', buttonText: 'Ver más', link: '/cart' },
-        { image: 'assets/images/banners/banner3.jpg', buttonText: 'Ver más', link: '/cart' },
-      ];
+  applyFilters(): void {
+    this.filteredProducts = this.products.filter(product => {
+      const matchSearch = !this.filters.search || 
+        product.name.toLowerCase().includes(this.filters.search.toLowerCase());
       
-
-      // 4. VARIABLES DE PAGINACIÓN
-      pageSize = 12;
-      currentPage = 1;
-
-
-
-      constructor(
-        private productApiService : ProductApiService,
-        private route: ActivatedRoute,
-        private router: Router
-      ) {}
-
-
-      // CICLO DE VIDA - OnInit
-      ngOnInit(): void {
-        this.route.queryParams.pipe(
-          first(),
-
-
-          //configuracion de PARAMETROS
-          switchMap(params => {
-            console.log('[🔍 Query Params]', params);  // 🔴 Verifica lo que llega por URL
-            
-            this.currentPage = +params['page'] || 1;
-            // campos de donde se basan los filtros
-            this.filters.minPrice = params['minPrice'] ? +params['minPrice'] : null;
-            this.filters.maxPrice = params['maxPrice'] ? +params['maxPrice'] : null;
-
-            this.filters.sucursal = params['sucursalId'] ? params['sucursalId'] : '';
-            this.filters.estado = params['estPrendaId'] ? params['estPrendaId'] : '';
-            this.filters.producto = params['productoId'] ? params['productoId'] : '';
-
-            return this.productApiService.getProducts({
-              sucursalId: this.filters.sucursal ? +this.filters.sucursal : undefined,
-              estPrendaId:this.filters.estado ? +this.filters.estado : undefined,
-              productoId:this.filters.productoId ? +this.filters.producto : undefined,
-
-              precioMin: this.filters.minPrice ?? undefined,
-              precioMax: this.filters.maxPrice ?? undefined,
-              includeFotos: true,
-              includeSucursal: true,
-              IncludeEstado: true,
-              IncludeProducto: true,
-              page: this.currentPage,
-              limit: this.pageSize
-            });
-            
-          })
-        ).subscribe({
-          next: (products: ProductApi[]) => {
-            console.log('[✅ Productos recibidos]', products);
-            this.filteredProducts = products;
-
-            // Generación de sucursalesList:
-            this.sucursalesList = products
-              .map(p => ({ id: p.sucursalId, name: p.sucursalNombre }))
-              .filter((v, i, a) => a.findIndex(x => x.id === v.id) === i);
-
-
-            // Generación  de estadosList:
-            this.estadosList = products
-              .map(p => ({ id: p.estPrendaId, name: p.estPrendaDescr }))
-              .filter((v, i, a) => a.findIndex(x => x.id === v.id) === i); 
-              
-
-            // Generación  de productosList:
-            this.productosList = products
-              .map(p => ({ id: p.productoId, name: p.productoNombre }))
-              .filter((v, i, a) => a.findIndex(x => x.id === v.id) === i); 
-
-
-
-            console.log('[🏪 Sucursales únicas]', this.sucursalesList);
-            console.log('[📦 Estados únicos]', this.estadosList);
-            console.log('[📦 Productos únicos]', this.productosList);  
-
-              
-            //agregar productos
-          },
-          error: err => console.error(err)
-        });
-
-
+      const matchCategory = !this.filters.category || 
+        product.categoria === this.filters.category;
+      
+      let matchPrice = true;
+      if (this.filters.priceRange === 'low') {
+        matchPrice = product.price < 50000;
+      } else if (this.filters.priceRange === 'medium') {
+        matchPrice = product.price >= 50000 && product.price < 100000;
+      } else if (this.filters.priceRange === 'high') {
+        matchPrice = product.price >= 100000;
       }
 
+      return matchSearch && matchCategory && matchPrice;
+    });
 
-      // CICLO DE VIDA - AfterViewInit
-      // Para hacer scroll automático si viene por queryParam
-      ngAfterViewInit(): void {
-        this.route.queryParams.subscribe(params => {
-          if (params['scrollToFilters'] === 'true') {
-            this.ensureScrollToFilters();
-          }
-        });
+    // Ordenar
+    if (this.filters.sortBy === 'price-low') {
+      this.filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (this.filters.sortBy === 'price-high') {
+      this.filteredProducts.sort((a, b) => b.price - a.price);
+    } else if (this.filters.sortBy === 'discount') {
+      this.filteredProducts.sort((a, b) => (b.discount || 0) - (a.discount || 0));
+    }
+  }
+
+  clearFilters(): void {
+    this.filters = {
+      search: '',
+      category: '',
+      priceRange: 'all',
+      sortBy: 'featured'
+    };
+    this.filteredProducts = [...this.products];
+  }
+
+  selectCategory(categoryName: string): void {
+    this.filters.category = categoryName;
+    this.applyFilters();
+    this.scrollToProducts();
+  }
+
+  filterByType(type: string): void {
+    // Aquí puedes agregar lógica para filtrar por tipo de producto
+    // Por ejemplo, agregar un nuevo filtro o navegar a una sección específica
+    if (type === 'economia-circular') {
+      // Filtrar productos de economía circular
+      this.filters.category = 'Economía Circular';
+    } else if (type === 'sala-ventas') {
+      // Filtrar productos de sala de ventas
+      this.filters.category = 'Sala de Ventas';
+    }
+    this.applyFilters();
+    this.scrollToProducts();
+  }
+
+  scrollToProducts(): void {
+    setTimeout(() => {
+      const productsSection = document.querySelector('.products-section');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-
-
-
-      // MÉTODOS - SCROLL A FILTROS
-      private ensureScrollToFilters(): void {
-        this.scrollToFilters();
-
-        setTimeout(() => this.scrollToFilters(), 100);
-        setTimeout(() => {
-          this.scrollToFilters();
-          this.router.navigate(['/'], { queryParams: {}, replaceUrl: true });
-        }, 300);
-      }
-
-      private scrollToFilters(): void {
-        const filtersElement = document.getElementById('filters');
-        if (filtersElement) {
-          filtersElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-
-
-
-      //Filtros dentro del método que llama al backend
-      applyFilters(): void {
-        this.currentPage = 1; // Reinicia paginación cuando los filtros cambian
-        const qp: any = {};
-
-        //aca se añaden los filtros que se ocupen y deseen añadir en el HTML.
-        if (this.filters.search) qp.search = this.filters.search;
-        if (this.filters.minPrice != null) qp.precioMin = this.filters.minPrice;
-        if (this.filters.maxPrice != null) qp.precioMax = this.filters.maxPrice;
-
-        if (this.filters.sucursal) qp.sucursalId = this.filters.sucursal;
-        if (this.filters.estado) qp.estPrendaId = this.filters.estado;        
-        if(this.filters.producto) qp.productoId = this.filters.producto;
-
-        if (this.filters.rubroId != null)    qp.rubroId = this.filters.rubroId;
-        if (this.filters.metalId != null)    qp.metalId = this.filters.metalId;
-        //if (this.filters.productoId != null) qp.productoId = this.filters.productoId;
-        //confirmar si sacar, esta arriba
-        //if (this.filters.estPrendaId != null)qp.estPrendaId = this.filters.estPrendaId;
-
-
-        qp.includeFotos = true;
-        qp.includeSucursal = true;
-        qp.includeEstado = true;
-        qp.IncludeProducto = true;
-
-        qp.page = this.currentPage;
-        qp.limit = this.pageSize;
-
-        // Sincroniza URL sin recargar la página
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: qp,
-          queryParamsHandling: 'merge',
-          replaceUrl: true
-        });
-
-        this.productApiService.getProducts(qp).subscribe({
-          next: items => this.filteredProducts = items,
-          error: err => console.error(err)
-        });
-      }
-
-
-
-
-      // ==================================================
-      // GETTERS - PÁGINA ACTUAL Y TOTAL DE PÁGINAS
-      // ==================================================
-      /*
-      get pagedProducts(): Product[] {
-        const startIndex = (this.currentPage - 1) * this.pageSize;
-        return this.filteredProducts.slice(startIndex, startIndex + this.pageSize);
-      }
-
-      */
-      get totalPages(): number {
-        return Math.ceil(this.filteredProducts.length / this.pageSize);
-      }
-
-
-
-
-      //Gestión de paginación, se vuelve a llamar a getProducts con el  filtro y la página actual.
-      goToPage(page: number): void {
-        if (page < 1 || page > this.totalPages) return;
-
-        this.currentPage = page;
-
-        const qp: any = {
-          page,
-          minPrice: this.filters.minPrice ?? null,
-          maxPrice: this.filters.maxPrice ?? null,
-          sucursalId: this.filters.sucursal || null,
-          includeFotos: true,
-          includeSucursal: true,
-          includeEstado:true,
-          includeProducto:true,
-          limit: this.pageSize
-        };
-
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: qp,
-          queryParamsHandling: 'merge',
-          replaceUrl: true
-        });
-
-        this.applyFilters();
-        this.scrollToFilters();
-      }
-
-
+    }, 100);
+  }
 }

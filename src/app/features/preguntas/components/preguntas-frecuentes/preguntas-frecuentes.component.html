@@ -1,14 +1,101 @@
-<div class="preguntas-container">
-    <h1>Preguntas Frecuentes</h1>
-  
-    <div class="faq-item" *ngFor="let item of condiciones">
-      <button class="faq-question" (click)="item.abierto = !item.abierto">
-        {{ item.pregunta }}
-        <span class="icon">{{ item.abierto ? '−' : '+' }}</span>
+<!-- preguntas-frecuentes.component.html -->
+<div class="faq-page">
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="faq-hero">
+      <div class="hero-icon">
+        <i class="bi bi-question-circle"></i>
+      </div>
+      <h1 class="faq-title">Preguntas Frecuentes</h1>
+      <p class="faq-subtitle">Encuentra respuestas a las preguntas más comunes sobre nuestro servicio</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="faq-search">
+      <i class="bi bi-search"></i>
+      <input 
+        type="text" 
+        placeholder="Buscar en preguntas frecuentes..."
+        [(ngModel)]="searchTerm"
+        (input)="filterQuestions()">
+    </div>
+
+    <!-- Categories (opcional) -->
+    <div class="faq-categories">
+      <button 
+        class="category-btn"
+        [class.active]="selectedCategory === 'todas'"
+        (click)="filterByCategory('todas')">
+        <i class="bi bi-grid"></i> Todas
       </button>
-      <div class="faq-answer" *ngIf="item.abierto">
-        <p>{{ item.respuesta }}</p>
+      <button 
+        class="category-btn"
+        [class.active]="selectedCategory === 'reservas'"
+        (click)="filterByCategory('reservas')">
+        <i class="bi bi-bookmark"></i> Reservas
+      </button>
+      <button 
+        class="category-btn"
+        [class.active]="selectedCategory === 'compras'"
+        (click)="filterByCategory('compras')">
+        <i class="bi bi-cart"></i> Compras
+      </button>
+      <button 
+        class="category-btn"
+        [class.active]="selectedCategory === 'productos'"
+        (click)="filterByCategory('productos')">
+        <i class="bi bi-box"></i> Productos
+      </button>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="faq-accordion">
+      <div 
+        *ngFor="let item of filteredCondiciones; let i = index" 
+        class="faq-item"
+        [class.active]="item.abierto">
+        <button 
+          class="faq-question" 
+          (click)="toggleQuestion(i)"
+          [attr.aria-expanded]="item.abierto">
+          <span class="question-number">{{ i + 1 }}</span>
+          <span class="question-text">{{ item.pregunta }}</span>
+          <span class="question-icon">
+            <i class="bi" [class.bi-chevron-down]="!item.abierto" [class.bi-chevron-up]="item.abierto"></i>
+          </span>
+        </button>
+        <div class="faq-answer" *ngIf="item.abierto">
+          <div class="answer-content">
+            <i class="bi bi-check-circle-fill answer-icon"></i>
+            <p>{{ item.respuesta }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="faq-empty" *ngIf="filteredCondiciones.length === 0">
+      <i class="bi bi-inbox"></i>
+      <h3>No se encontraron resultados</h3>
+      <p>Intenta con otros términos de búsqueda</p>
+      <button class="btn-reset" (click)="resetFilters()">Ver todas las preguntas</button>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="faq-contact">
+      <div class="contact-card">
+        <i class="bi bi-headset"></i>
+        <h3>¿No encuentras lo que buscas?</h3>
+        <p>Nuestro equipo está listo para ayudarte</p>
+        <div class="contact-buttons">
+          <a href="tel:8003400222" class="btn-contact">
+            <i class="bi bi-telephone"></i> 800 340 022
+          </a>
+          <a href="mailto:contacto@dicrep.cl" class="btn-contact secondary">
+            <i class="bi bi-envelope"></i> Enviar correo
+          </a>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

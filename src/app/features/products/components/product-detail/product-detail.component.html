@@ -1,67 +1,261 @@
-<div class="container product-detail py-5">
-  <div class="row gx-5 align-items-stretch">
-    <!-- Imagen -->
-    <div class="col-lg-6 d-flex">
-      <div class="product-images card border-0 shadow-sm w-100">
-        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3">Producto Usado</span>
+<!-- product-detail.component.html -->
+<div class="product-detail-page" *ngIf="product">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">
+            <i class="bi bi-house"></i> Inicio
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/">Productos</a>
+        </li>
+        <li class="breadcrumb-item active">{{ product.name }}</li>
+      </ol>
+    </nav>
+
+    <!-- Product Main Section -->
+    <div class="product-main">
+      <!-- Gallery Section -->
+      <div class="product-gallery">
+        <!-- Main Image -->
         <div class="main-image-container">
-          <img [src]="selectedImage || product?.image"
-               [alt]="product?.name"
-               class="main-image" />
+          <span class="badge badge-condition">{{ product.condition }}</span>
+          <img 
+            [src]="selectedImage || product.image" 
+            [alt]="product.name"
+            class="main-image">
         </div>
-        <div class="gallery-thumbnails d-flex flex-wrap justify-content-center gap-2 px-3 py-3">
-          <img *ngFor="let img of product?.gallery"
-               [src]="img" [alt]="product?.name"
-               (click)="selectedImage = img"
-               [class.active]="img === selectedImage"
-               class="thumbnail-img" />
+
+        <!-- Thumbnails -->
+        <div class="thumbnails-container" *ngIf="product.gallery && product.gallery.length > 1">
+          <div class="thumbnails-scroll">
+            <div 
+              *ngFor="let img of product.gallery; let i = index"
+              class="thumbnail"
+              [class.active]="img === selectedImage"
+              (click)="selectImage(img)">
+              <img [src]="img" [alt]="product.name + ' - Imagen ' + (i + 1)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info Section -->
+      <div class="product-info-section">
+        <!-- Title and Price -->
+        <div class="product-header">
+          <span class="product-category">
+            <i class="bi bi-tag"></i> {{ product.categoria }}
+          </span>
+          <h1 class="product-name">{{ product.name }}</h1>
+          
+          <!-- Rating -->
+          <div class="product-rating">
+            <div class="stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </div>
+            <span class="rating-text">(4.5)</span>
+          </div>
+
+          <!-- Price -->
+          <div class="price-section">
+            <div class="current-price">
+              {{ product.price | currency: 'CLP':'symbol':'1.0-0' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Meta Info -->
+        <div class="product-meta">
+          <div class="meta-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <div class="meta-content">
+              <span class="meta-label">Ubicación</span>
+              <span class="meta-value">{{ product.sucursal }}</span>
+            </div>
+          </div>
+          
+          <div class="meta-item">
+            <i class="bi bi-box-seam"></i>
+            <div class="meta-content">
+              <span class="meta-label">Estado</span>
+              <span class="meta-value">{{ product.condition }}</span>
+            </div>
+          </div>
+
+          <div class="meta-item" *ngIf="product.usageDetails">
+            <i class="bi bi-info-circle"></i>
+            <div class="meta-content">
+              <span class="meta-label">Detalles de uso</span>
+              <span class="meta-value">{{ product.usageDetails }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="product-description">
+          <h3>
+            <i class="bi bi-text-left"></i> Descripción
+          </h3>
+          <p>{{ product.description || 'No hay descripción disponible' }}</p>
+        </div>
+
+        <!-- Features -->
+        <div class="product-features" *ngIf="product.features && product.features.length > 0">
+          <h3>
+            <i class="bi bi-check-circle"></i> Características
+          </h3>
+          <ul>
+            <li *ngFor="let feature of product.features">
+              <i class="bi bi-check2"></i> {{ feature }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Actions -->
+        <div class="product-actions">
+          <button 
+            class="btn-primary"
+            [disabled]="isInCart"
+            (click)="addToCart()">
+            <i class="bi" [class.bi-cart-plus]="!isInCart" [class.bi-cart-check]="isInCart"></i>
+            {{ isInCart ? 'En el carrito' : 'Agregar al carrito' }}
+          </button>
+
+          <button 
+            class="btn-secondary"
+            (click)="reservar()">
+            <i class="bi bi-bookmark"></i>
+            Reservar producto
+          </button>
+
+          <button 
+            class="btn-outline"
+            (click)="goBackToHome()">
+            <i class="bi bi-arrow-left"></i>
+            Volver al catálogo
+          </button>
+        </div>
+
+        <!-- Important Notice -->
+        <div class="important-notice">
+          <i class="bi bi-exclamation-circle"></i>
+          <div>
+            <strong>Importante:</strong> Todos los productos son usados y han sido evaluados por técnicos especializados. 
+            La compra debe realizarse en la sucursal indicada en efectivo.
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Detalles -->
-    <div class="col-lg-6 d-flex">
-      <div class="product-info card border-0 shadow-sm p-4 d-flex flex-column w-100">
-        <h1 class="product-title">{{ product?.name }}</h1>
-        <h2 class="product-price">{{ product?.price | number:'1.0-0' }} CLP</h2>
+    <!-- Product Details Tabs -->
+    <div class="product-tabs">
+      <div class="tabs-header">
+        <button 
+          class="tab-button"
+          [class.active]="activeTab === 'details'"
+          (click)="activeTab = 'details'">
+          Detalles del Producto
+        </button>
+        <button 
+          class="tab-button"
+          [class.active]="activeTab === 'process'"
+          (click)="activeTab = 'process'">
+          Proceso de Compra
+        </button>
+      </div>
 
-        <ul class="product-meta list-unstyled small text-muted mb-3">
-          <li><strong>Estado:</strong> {{ product?.condition }}</li>
-          <li><strong>Uso:</strong> {{ product?.usageDetails }}</li>
-          <li><i class="bi bi-geo-alt-fill me-1"></i>{{ product?.sucursal }}</li>
-          <li><i class="bi bi-tag-fill me-1"></i>Categoría: {{ product?.categoria }}</li>
-        </ul>
+      <div class="tabs-content">
+        <!-- Details Tab -->
+        <div class="tab-panel" *ngIf="activeTab === 'details'">
+          <div class="details-grid">
+            <div class="detail-item">
+              <span class="detail-label">Categoría:</span>
+              <span class="detail-value">{{ product.categoria }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Estado:</span>
+              <span class="detail-value">{{ product.condition }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Sucursal:</span>
+              <span class="detail-value">{{ product.sucursal }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Código:</span>
+              <span class="detail-value">#{{ product.id }}</span>
+            </div>
+          </div>
+        </div>
 
-        <p class="product-description mb-3">{{ product?.description }}</p>
-
-        <ul class="product-features ps-0 mb-4">
-          <li *ngFor="let f of product?.features">
-            <i class="bi bi-check2-circle text-success me-2"></i>{{ f }}
-          </li>
-        </ul>
-
-        <div class="mt-auto d-grid gap-2">
-          <button class="btn btn-primary btn-lg" [disabled]="isInCart" (click)="addToCart()">
-            {{ isInCart ? 'Añadido al carrito' : 'Agregar al carrito' }}
-          </button>
-          <button class="btn btn-outline-primary btn-lg" (click)="reservar()">Reservar</button>
-          <button class="btn btn-outline-secondary btn-lg" (click)="goBackToHome()">
-            <i class="bi bi-arrow-left me-2"></i>Volver
-          </button>
+        <!-- Process Tab -->
+        <div class="tab-panel" *ngIf="activeTab === 'process'">
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Reserva el producto</h4>
+                <p>Haz clic en "Reservar producto" y completa el formulario</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Recibe tu código</h4>
+                <p>Te enviaremos un código de reserva por email</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Visita la sucursal</h4>
+                <p>Acude con tu código antes del vencimiento</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Evalúa y compra</h4>
+                <p>Revisa el producto y realiza tu compra en efectivo</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Related Products -->
+    <section class="related-products" *ngIf="recommendedProducts && recommendedProducts.length > 0">
+      <div class="section-header">
+        <h2>
+          <i class="bi bi-grid"></i> Productos Relacionados
+        </h2>
+        <p>Otros productos que podrían interesarte</p>
+      </div>
+      <app-carousel-products
+        [products]="recommendedProducts"
+        carouselId="CarouselRelatedProducts">
+      </app-carousel-products>
+    </section>
   </div>
+</div>
 
-  <!-- Carrusel de Productos en Remate -->
-  <section class="mt-5 p-4 bg-light border-top border-bottom">
-    <div class="text-center mb-4">
-      <h2 class="fw-bold">Productos en Remate</h2>
-      <p class="fs-5 text-muted">Explora los productos que están en Remates DICREP</p>
-    </div>
-    <app-carousel-products
-      [products]="recommendedProducts"
-      carouselId="CarouselHomeProductsRecommended">
-    </app-carousel-products>
-  </section>
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Cargando producto...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="error">
+  <i class="bi bi-exclamation-triangle"></i>
+  <h2>{{ error }}</h2>
+  <button class="btn-primary" routerLink="/">Volver al inicio</button>
 </div>

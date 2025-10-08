@@ -1,17 +1,246 @@
+<!-- Hero Carousel -->
+<section class="hero-carousel">
+  <div class="carousel-container">
+    <div class="carousel-slides">
+      <div 
+        *ngFor="let promo of promotions; let i = index" 
+        class="carousel-slide"
+        [class.active]="i === currentSlide">
+        <img [src]="promo.image" [alt]="promo.title">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+          <h1 class="carousel-title">{{ promo.title }}</h1>
+          <p class="carousel-subtitle">{{ promo.subtitle }}</p>
+          <a [routerLink]="promo.link" class="btn-hero">{{ promo.buttonText }}</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+      <button 
+        *ngFor="let promo of promotions; let i = index"
+        [class.active]="i === currentSlide"
+        (click)="goToSlide(i)">
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Categorías Destacadas -->
+<section class="categories-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Explora por Categorías</h2>
+      <p class="section-subtitle">Encuentra exactamente lo que buscas</p>
+    </div>
+    
+    <div class="categories-grid">
+      <div 
+        *ngFor="let cat of categories" 
+        class="category-card"
+        (click)="selectCategory(cat.name)">
+        <div class="category-image">
+          <img [src]="cat.image" [alt]="cat.name">
+          <div class="category-overlay">
+            <span class="category-icon">{{ cat.icon }}</span>
+          </div>
+        </div>
+        <div class="category-info">
+          <h3 class="category-name">{{ cat.name }}</h3>
+          <p class="category-count">{{ cat.count }} productos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Banners de Productos -->
+<section class="product-banners-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Explora Nuestros Productos</h2>
+      <p class="section-subtitle">Encuentra productos de economía circular y de sala de ventas DICREP</p>
+    </div>
+    
+    <div class="banners-container">
+      <div class="banner-card" (click)="filterByType('economia-circular')">
+        <img src="assets/images/banners/banner_productos_economiacircular.jpg" alt="Productos Economía Circular" />
+        <div class="banner-overlay">
+          <div class="banner-content">
+            <h3>Economía Circular</h3>
+            <p>Productos sustentables y responsables</p>
+            <button class="btn-banner">Explorar <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="banner-card" (click)="filterByType('sala-ventas')">
+        <img src="assets/images/banners/banner_productos_salaventas.jpg" alt="Productos Sala de Ventas" />
+        <div class="banner-overlay">
+          <div class="banner-content">
+            <h3>Sala de Ventas DICREP</h3>
+            <p>Productos en remate y liquidación</p>
+            <button class="btn-banner">Explorar <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Filtros y Productos -->
+<section class="products-section">
+  <div class="container">
+    <!-- Barra de Filtros -->
+    <div class="filters-bar">
+      <div class="filters-left">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input 
+            type="text" 
+            placeholder="Buscar productos..."
+            [(ngModel)]="filters.search"
+            (input)="applyFilters()">
+        </div>
+        
+        <select 
+          class="filter-select"
+          [(ngModel)]="filters.category"
+          (change)="applyFilters()">
+          <option value="">Todas las categorías</option>
+          <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+        </select>
+        
+        <select 
+          class="filter-select"
+          [(ngModel)]="filters.priceRange"
+          (change)="applyFilters()">
+          <option value="all">Todos los precios</option>
+          <option value="low">Menos de $50.000</option>
+          <option value="medium">$50.000 - $100.000</option>
+          <option value="high">Más de $100.000</option>
+        </select>
+      </div>
+      
+      <div class="filters-right">
+        <select 
+          class="filter-select"
+          [(ngModel)]="filters.sortBy"
+          (change)="applyFilters()">
+          <option value="featured">Destacados</option>
+          <option value="price-low">Menor precio</option>
+          <option value="price-high">Mayor precio</option>
+          <option value="discount">Mayor descuento</option>
+        </select>
+        
+        <button class="btn-clear" (click)="clearFilters()">
+          <i class="bi bi-x-circle"></i> Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="results-info">
+      <p>{{ filteredProducts.length }} productos encontrados</p>
+    </div>
+
+    <!-- Grid de Productos -->
+    <div class="products-grid">
+      <div *ngFor="let product of filteredProducts" class="product-card">
+        <!-- Badges -->
+        <div class="product-badges">
+          <span *ngIf="product.isNew" class="badge badge-new">Nuevo</span>
+          <span *ngIf="product.discount" class="badge badge-discount">-{{ product.discount }}%</span>
+        </div>
+
+        <!-- Imagen -->
+        <div class="product-image">
+          <img [src]="product.image" [alt]="product.name">
+          <div class="product-overlay">
+            <button class="btn-icon" title="Vista rápida">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn-icon" title="Añadir a favoritos">
+              <i class="bi bi-heart"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="product-info">
+          <div class="product-category">{{ product.categoria }}</div>
+          <h3 class="product-name">{{ product.name }}</h3>
+          
+          <!-- Rating -->
+          <div class="product-rating">
+            <span class="stars">
+              <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" 
+                 [class.active]="star <= product.rating"></i>
+            </span>
+            <span class="rating-value">({{ product.rating }})</span>
+          </div>
+
+          <!-- Precio -->
+          <div class="product-pricing">
+            <span class="product-price">${{ product.price | number:'1.0-0' }}</span>
+            <span *ngIf="product.oldPrice" class="product-old-price">${{ product.oldPrice | number:'1.0-0' }}</span>
+          </div>
+
+          <!-- Ubicación -->
+          <div class="product-location">
+            <i class="bi bi-geo-alt"></i> {{ product.sucursal }}
+          </div>
+
+          <!-- Botón -->
+          <button class="btn-add-cart" [routerLink]="['/productdetail', product.id]">
+            <i class="bi bi-cart-plus"></i> Ver Producto
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredProducts.length === 0" class="empty-state">
+      <i class="bi bi-inbox"></i>
+      <h3>No se encontraron productos</h3>
+      <p>Intenta ajustar tus filtros de búsqueda</p>
+      <button class="btn-primary" (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+  </div>
+</section>
+
+<!-- Banner Promocional -->
+<section class="promo-banner">
+  <div class="container">
+    <div class="promo-content">
+      <div class="promo-text">
+        <h2>¿Necesitas ayuda para elegir?</h2>
+        <p>Nuestro equipo está listo para asesorarte en tu compra</p>
+      </div>
+      <button class="btn-contact">
+        <i class="bi bi-telephone"></i> Contáctanos
+      </button>
+    </div>
+  </div>
+</section>
+
 
 
   <!-- Carusel con Imágenes de Banners -->
+  <!-- 
 <app-carousel 
   [items]="promotions" 
   carouselId="promotionsCarousel"
   class="mb-5"
 ></app-carousel>
-
+-->
   <!-- Sección escrita para títulos
   Despues sacar rutas largas de ../../../
   (click)="filtrarSalaVentas() "
   (click)="filtrarEconomiaCircular()" 
   -->
+    <!--
   <div class="container">
   <div class="productos-header">
     <h2 class="section-title">Explora Nuestros Productos</h2>
@@ -21,16 +250,16 @@
         <img src="../../../../../assets/images/banners/banner_productos_salaventas.jpg" />
    </div>
   </div>
-
+  -->
 
 <!-- Sección de Productos, luego cambiar a mt5 -->
-<section class="container  mt-4  mb-5">
+<!-- <section class="container  mt-4  mb-5">-->
 
   <!-- FILTROS -->
-  <div class="filter-bar d-flex flex-wrap gap-3 mb-4 align-items-end" id="filters">
+   <!-- <div class="filter-bar d-flex flex-wrap gap-3 mb-4 align-items-end" id="filters">-->
 
     <!-- Buscador -->
-    <div class="filter-item flex-grow-1 min-w-200">
+   <!-- <div class="filter-item flex-grow-1 min-w-200">
       <label for="search" class="form-label">Buscar Producto</label>
       <input
         id="search"
@@ -43,19 +272,19 @@
     </div>
   </div>
 
+-->
 
 
 
-
-  <!-- CONTENEDOR PRINCIPAL CON LISTADO Y FILTRO LATERAL -->
+  <!-- CONTENEDOR PRINCIPAL CON LISTADO Y FILTRO LATERAL 
   <div class="products-layout d-flex flex-wrap flex-lg-nowrap gap-4">
 
 
-    <!-- FILTRO LATERAL DERECHO -->
+   FILTRO LATERAL DERECHO 
     <aside class="filter-sidebar card p-3 shadow-sm">
       <h5 class="mb-3">Filtrar por</h5>
 
-      <!-- Precio mínimo -->
+      Precio mínimo 
       <div class="mb-3">
         <label for="minPrice" class="form-label">Precio mínimo</label>
         <input
@@ -67,7 +296,7 @@
           (input)="applyFilters()" />
       </div>
 
-      <!-- Precio máximo -->
+      Precio máximo 
       <div class="mb-3">
         <label for="maxPrice" class="form-label">Precio máximo</label>
         <input
@@ -79,7 +308,7 @@
           (input)="applyFilters()" />
       </div>
 
-      <!-- Sucursal -->
+       Sucursal 
       <div class="mb-3">
         <label for="sucursal" class="form-label">Sucursal</label>
         <select
@@ -93,7 +322,7 @@
       </div>
 
 
-      <!-- Producto (categoria)-->
+      Producto (categoria)
       <div class="mb-3">
         <label for="producto" class="form-label">Categoria</label>
         <select
@@ -107,7 +336,7 @@
       </div>
 
 
-    <!-- Estados de Prenda-->
+    Estados de Prenda
       <div class="mb-3">
         <label for="estado" class="form-label">Estado</label>
         <select
@@ -121,7 +350,7 @@
       </div>
 
 
-      <!-- Rubro
+      Rubro
       Comentado hasta que equipo confirme que se saca el filtro
       <div class="mb-3">
         <label for="rubro" class="form-label">Rubro</label>
@@ -150,13 +379,13 @@
           placeholder="Ingrese Metal ID"
         />
       </div>
-    -->
+    
 
     </aside>
 
 
 
-        <!-- LISTADO DE PRODUCTOS FILTRADOS-->
+         LISTADO DE PRODUCTOS FILTRADOS
     <div class="flex-grow-1">
         <app-products-home [products]="filteredProducts"></app-products-home>
     </div>
@@ -166,7 +395,7 @@
 
   
 
-  <!-- Paginación-->
+  Paginación
   <nav aria-label="Page navigation" class="pagination-nav" *ngIf="totalPages > 1">
     <ul class="pagination justify-content-center flex-wrap">
       <li class="page-item" [class.disabled]="currentPage === 1">
@@ -187,3 +416,4 @@
     </ul>
   </nav>
 </section>
+-->

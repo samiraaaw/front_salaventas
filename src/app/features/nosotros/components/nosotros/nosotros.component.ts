@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './nosotros.component.scss'
 })
 export class NosotrosComponent {
-
+  constructor(){}
 }

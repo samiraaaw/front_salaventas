@@ -1,11 +1,131 @@
+<!-- nav-bar.component.html -->
+<nav class="navbar-modern">
+  <!-- Top Bar (opcional - info institucional) -->
+  <div class="navbar-top">
+    <div class="container-nav">
+      <div class="top-info">
+        <span><i class="bi bi-telephone"></i> 800 340 022</span>
+        <span><i class="bi bi-envelope"></i> contacto{{ '@' }}dicrep.cl</span>
+      </div>
+      <div class="top-actions">
+        <a href="#" class="top-link">Ayuda</a>
+        <a href="#" class="top-link">Sucursales</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <div class="navbar-main">
+    <div class="container-nav">
+      <div class="navbar-content">
+        <!-- Logo -->
+        <a class="navbar-brand" routerLink="/">
+          <img src="assets/logo/dicrep.logo.png" alt="Logo DICREP" class="navbar-logo" />
+          <span class="brand-text">Sala de Ventas</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <ul class="navbar-menu desktop-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/preguntas-frecuentes" routerLinkActive="active">
+              Preguntas Frecuentes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/nosotros" routerLinkActive="active">
+              Nosotros
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/economia-circular" routerLinkActive="active">
+              Economía Circular
+            </a>
+          </li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="navbar-actions">
+          <app-clave-unica class="auth-button"></app-clave-unica>
+          
+          <a class="nav-icon" routerLink="/cart" title="Carrito">
+            <i class="bi bi-cart3"></i>
+            <span class="badge-cart" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+          </a>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-toggle" (click)="toggleMenu()" [class.active]="menuOpen">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.active]="menuOpen">
+    <div class="mobile-menu-content">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/" (click)="closeMenu()">
+            <i class="bi bi-house"></i>
+            Inicio
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/preguntas-frecuentes" (click)="closeMenu()">
+            <i class="bi bi-question-circle"></i>
+            Preguntas Frecuentes
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/nosotros" (click)="closeMenu()">
+            <i class="bi bi-people"></i>
+            Nosotros
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/economia-circular" (click)="closeMenu()">
+            <i class="bi bi-recycle"></i>
+            Economía Circular
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/cart" (click)="closeMenu()">
+            <i class="bi bi-cart3"></i>
+            Carrito
+            <span class="badge-mobile" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="mobile-auth">
+        <app-clave-unica (click)="closeMenu()"></app-clave-unica>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="menu-overlay" [class.active]="menuOpen" (click)="closeMenu()"></div>
+</nav>
+
+
+
+<!--
 <nav class="navbar navbar-expand-lg navbar-dark bg-institutional px-3 py-2 shadow-sm">
   <div class="container-fluid align-items-center">
-    <!-- Logo -->
+     Logo 
     <a class="navbar-brand d-flex align-items-center" routerLink="/">
       <img src="assets/logo/logo_dicrep_recortado.png" alt="Logo DICREP" class="navbar-logo" />
     </a>
 
-    <!-- Botones móviles -->
+    Botones móviles 
     <div class="d-flex align-items-center">
       <div class="nav-item nav-item-mobile position-relative me-3">
         <a class="nav-link p-1" routerLink="/cart" (click)="closeMenu()">
@@ -19,7 +139,7 @@
       </button>
     </div>
 
-    <!-- Menú -->
+     Menú 
     <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
       <ul class="navbar-nav text-end text-lg-start">
         <li class="nav-item"><a class="nav-link" routerLink="/" (click)="closeMenu()">Inicio</a></li>
@@ -46,3 +166,4 @@
     </div>
   </div>
 </nav>
+-->
