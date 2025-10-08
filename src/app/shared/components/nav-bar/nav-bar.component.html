@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-institutional px-3 py-2 shadow-sm">
+  <div class="container-fluid align-items-center">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img src="assets/logo/logo_dicrep_recortado.png" alt="Logo DICREP" class="navbar-logo" />
+    </a>
+
+    <!-- Botones móviles -->
+    <div class="d-flex align-items-center">
+      <div class="nav-item nav-item-mobile position-relative me-3">
+        <a class="nav-link p-1" routerLink="/cart" (click)="closeMenu()">
+          <i class="bi bi-cart"></i>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">{{ cartItemCount }}</span>
+        </a>
+      </div>
+
+      <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-label="Toggle navigation">
+        <span [ngClass]="menuOpen ? 'bi bi-x-lg' : 'navbar-toggler-icon'"></span>
+      </button>
+    </div>
+
+    <!-- Menú -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+      <ul class="navbar-nav text-end text-lg-start">
+        <li class="nav-item"><a class="nav-link" routerLink="/" (click)="closeMenu()">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/preguntas-frecuentes" (click)="closeMenu()">Preguntas Frencuentes</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/nosotros" (click)="closeMenu()">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/economia-circular" (click)="closeMenu()">Economía Circular</a></li>
+        <li class="nav-item"><app-clave-unica (click)="closeMenu()"></app-clave-unica></li>
+
+        <li class="nav-item"><hr class="dropdown-divider d-lg-none"></li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/salir" (click)="closeMenu()">
+            <i class="bi bi-box-arrow-in-right"></i>
+          </a>
+        </li>
+
+        <li class="nav-item nav-item-desktop position-relative ms-3">
+          <a class="nav-link" routerLink="/cart" (click)="closeMenu()">
+            <i class="bi bi-cart"></i>
+            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">{{ cartItemCount }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

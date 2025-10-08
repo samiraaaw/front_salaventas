@@ -1,0 +1,6 @@
+projectKey=SalaVentas-Frontend
+serverUrl=https://qube.tiarica.cl
+serverVersion=25.4.0.105899
+dashboardUrl=https://qube.tiarica.cl/dashboard?id=SalaVentas-Frontend
+ceTaskId=07cb397e-2a9c-44a3-8b8e-bacff36a097a
+ceTaskUrl=https://qube.tiarica.cl/api/ce/task?id=07cb397e-2a9c-44a3-8b8e-bacff36a097a

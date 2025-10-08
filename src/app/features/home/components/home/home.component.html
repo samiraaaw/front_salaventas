@@ -1,0 +1,189 @@
+
+
+  <!-- Carusel con Imágenes de Banners -->
+<app-carousel 
+  [items]="promotions" 
+  carouselId="promotionsCarousel"
+  class="mb-5"
+></app-carousel>
+
+  <!-- Sección escrita para títulos
+  Despues sacar rutas largas de ../../../
+  (click)="filtrarSalaVentas() "
+  (click)="filtrarEconomiaCircular()" 
+  -->
+  <div class="container">
+  <div class="productos-header">
+    <h2 class="section-title">Explora Nuestros Productos</h2>
+  </div>
+    <div class="banners-container">
+        <img src="../../../../../assets/images/banners/banner_productos_economiacircular.jpg" />
+        <img src="../../../../../assets/images/banners/banner_productos_salaventas.jpg" />
+   </div>
+  </div>
+
+
+<!-- Sección de Productos, luego cambiar a mt5 -->
+<section class="container  mt-4  mb-5">
+
+  <!-- FILTROS -->
+  <div class="filter-bar d-flex flex-wrap gap-3 mb-4 align-items-end" id="filters">
+
+    <!-- Buscador -->
+    <div class="filter-item flex-grow-1 min-w-200">
+      <label for="search" class="form-label">Buscar Producto</label>
+      <input
+        id="search"
+        type="search"
+        class="form-control"
+        placeholder="Ej. Zapato, Polera..."
+        [(ngModel)]="filters.search"
+        (input)="applyFilters()"
+      />
+    </div>
+  </div>
+
+
+
+
+
+  <!-- CONTENEDOR PRINCIPAL CON LISTADO Y FILTRO LATERAL -->
+  <div class="products-layout d-flex flex-wrap flex-lg-nowrap gap-4">
+
+
+    <!-- FILTRO LATERAL DERECHO -->
+    <aside class="filter-sidebar card p-3 shadow-sm">
+      <h5 class="mb-3">Filtrar por</h5>
+
+      <!-- Precio mínimo -->
+      <div class="mb-3">
+        <label for="minPrice" class="form-label">Precio mínimo</label>
+        <input
+          id="minPrice"
+          type="number"
+          class="form-control"
+          min="0"
+          [(ngModel)]="filters.minPrice"
+          (input)="applyFilters()" />
+      </div>
+
+      <!-- Precio máximo -->
+      <div class="mb-3">
+        <label for="maxPrice" class="form-label">Precio máximo</label>
+        <input
+          id="maxPrice"
+          type="number"
+          class="form-control"
+          min="0"
+          [(ngModel)]="filters.maxPrice"
+          (input)="applyFilters()" />
+      </div>
+
+      <!-- Sucursal -->
+      <div class="mb-3">
+        <label for="sucursal" class="form-label">Sucursal</label>
+        <select
+          id="sucursal"
+          class="form-select"
+          [(ngModel)]="filters.sucursal"
+          (change)="applyFilters()">
+          <option [ngValue]="undefined">Todas</option>
+          <option *ngFor="let s of sucursalesList" [ngValue]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+
+
+      <!-- Producto (categoria)-->
+      <div class="mb-3">
+        <label for="producto" class="form-label">Categoria</label>
+        <select
+          id="producto"
+          class="form-select"
+          [(ngModel)]="filters.producto"
+          (change)="applyFilters()">
+          <option [ngValue]="undefined">Todas</option>
+          <option *ngFor="let p of productosList" [ngValue]="p.id">{{ p.name }}</option>
+        </select>
+      </div>
+
+
+    <!-- Estados de Prenda-->
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select
+          id="estado"
+          class="form-select"
+          [(ngModel)]="filters.estado" 
+          (change)="applyFilters()">
+          <option [ngValue]="undefined">Todas</option>
+          <option *ngFor="let e of estadosList" [ngValue]="e.id">{{ e.name }}</option>
+        </select>
+      </div>
+
+
+      <!-- Rubro
+      Comentado hasta que equipo confirme que se saca el filtro
+      <div class="mb-3">
+        <label for="rubro" class="form-label">Rubro</label>
+        <input
+          id="rubro"
+          type="number"
+          class="form-control"
+          [(ngModel)]="filters.rubroId"
+          (input)="applyFilters()"
+          placeholder="Ingrese Rubro ID"
+        />
+      </div>
+      -->
+
+      
+      <!-- Metal 
+       Comentado hasta que equipo confirme que se saca el filtro
+      <div class="mb-3">
+        <label for="metal" class="form-label">Metal</label>
+        <input
+          id="metal"
+          type="number"
+          class="form-control"
+          [(ngModel)]="filters.metalId"
+          (input)="applyFilters()"
+          placeholder="Ingrese Metal ID"
+        />
+      </div>
+    -->
+
+    </aside>
+
+
+
+        <!-- LISTADO DE PRODUCTOS FILTRADOS-->
+    <div class="flex-grow-1">
+        <app-products-home [products]="filteredProducts"></app-products-home>
+    </div>
+  </div>
+
+
+
+  
+
+  <!-- Paginación-->
+  <nav aria-label="Page navigation" class="pagination-nav" *ngIf="totalPages > 1">
+    <ul class="pagination justify-content-center flex-wrap">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="goToPage(currentPage - 1)">Anterior</button>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="currentPage === i + 1"
+      >
+        <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="goToPage(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</section>

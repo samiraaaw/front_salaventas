@@ -1,0 +1,39 @@
+<div class="cart-container container py-5 px-4 px-md-5">
+  <h1 class="cart-title mb-4 text-center">Carrito de Compras</h1>
+
+  <div *ngIf="cartItems.length === 0" class="alert alert-info text-center">
+    Tu carrito está vacío.
+  </div>
+
+  <div *ngIf="cartItems.length > 0" class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle">
+      <thead class="table-light text-center">
+        <tr>
+          <th scope="col">Producto</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Ubicación</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cartItems; index as i">
+          <td>{{ item.name }}</td>
+          <td>${{ item.price | number: '1.0-0' }}</td>
+          <td>{{ item.sucursal }}</td>
+          <td class="text-center">
+            <button class="btn btn-outline-danger btn-sm" (click)="removeItem(item.id)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cart-footer d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
+      <h4 class="mb-3 mb-md-0">Total: <strong>${{ total | number: '1.0-0' }}</strong></h4>
+      <button class="btn btn-danger" (click)="clearCart()">
+        <i class="bi bi-x-circle"></i> Vaciar Carrito
+      </button>
+    </div>
+  </div>
+</div>

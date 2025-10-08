@@ -1,0 +1,147 @@
+
+.banners-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  //añade margin top de 1 rem
+  margin: 0rem 0;
+
+  img {
+    width: 100%;
+    max-width: 49%;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+
+.productos-header {
+  border-top: 3px;
+  border-bottom: 1px;
+  //añade 48px por arriba  y por abajo
+  padding: 2rem 0rem;
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: #6c757d;
+  }
+}
+
+
+
+.highlight-section {
+  background-color: #f8f9fa;
+}
+
+.pagination-nav {
+  padding: 1rem 0;
+
+  .pagination {
+    gap: 0.5rem;
+
+    .page-item {
+      .page-link {
+        border-radius: 0; /* Cuadrado */
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+      }
+
+      &.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+      }
+
+      &.disabled .page-link {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+.products-layout {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.filter-sidebar {
+  min-width: 250px;
+  max-width: 300px;
+  width: 100%;
+}
+
+
+app-product-card-group {
+  display: block;
+  width: 100%;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.filter-bar {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+
+  .form-label {
+    font-weight: 500;
+    color: #495057;
+  }
+
+  .form-control,
+  .form-select {
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .min-w-120 {
+    min-width: 120px;
+  }
+
+  .min-w-200 {
+    min-width: 200px;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+  }
+}

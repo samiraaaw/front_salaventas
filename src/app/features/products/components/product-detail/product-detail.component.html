@@ -1,0 +1,67 @@
+<div class="container product-detail py-5">
+  <div class="row gx-5 align-items-stretch">
+    <!-- Imagen -->
+    <div class="col-lg-6 d-flex">
+      <div class="product-images card border-0 shadow-sm w-100">
+        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3">Producto Usado</span>
+        <div class="main-image-container">
+          <img [src]="selectedImage || product?.image"
+               [alt]="product?.name"
+               class="main-image" />
+        </div>
+        <div class="gallery-thumbnails d-flex flex-wrap justify-content-center gap-2 px-3 py-3">
+          <img *ngFor="let img of product?.gallery"
+               [src]="img" [alt]="product?.name"
+               (click)="selectedImage = img"
+               [class.active]="img === selectedImage"
+               class="thumbnail-img" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles -->
+    <div class="col-lg-6 d-flex">
+      <div class="product-info card border-0 shadow-sm p-4 d-flex flex-column w-100">
+        <h1 class="product-title">{{ product?.name }}</h1>
+        <h2 class="product-price">{{ product?.price | number:'1.0-0' }} CLP</h2>
+
+        <ul class="product-meta list-unstyled small text-muted mb-3">
+          <li><strong>Estado:</strong> {{ product?.condition }}</li>
+          <li><strong>Uso:</strong> {{ product?.usageDetails }}</li>
+          <li><i class="bi bi-geo-alt-fill me-1"></i>{{ product?.sucursal }}</li>
+          <li><i class="bi bi-tag-fill me-1"></i>Categoría: {{ product?.categoria }}</li>
+        </ul>
+
+        <p class="product-description mb-3">{{ product?.description }}</p>
+
+        <ul class="product-features ps-0 mb-4">
+          <li *ngFor="let f of product?.features">
+            <i class="bi bi-check2-circle text-success me-2"></i>{{ f }}
+          </li>
+        </ul>
+
+        <div class="mt-auto d-grid gap-2">
+          <button class="btn btn-primary btn-lg" [disabled]="isInCart" (click)="addToCart()">
+            {{ isInCart ? 'Añadido al carrito' : 'Agregar al carrito' }}
+          </button>
+          <button class="btn btn-outline-primary btn-lg" (click)="reservar()">Reservar</button>
+          <button class="btn btn-outline-secondary btn-lg" (click)="goBackToHome()">
+            <i class="bi bi-arrow-left me-2"></i>Volver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrusel de Productos en Remate -->
+  <section class="mt-5 p-4 bg-light border-top border-bottom">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Productos en Remate</h2>
+      <p class="fs-5 text-muted">Explora los productos que están en Remates DICREP</p>
+    </div>
+    <app-carousel-products
+      [products]="recommendedProducts"
+      carouselId="CarouselHomeProductsRecommended">
+    </app-carousel-products>
+  </section>
+</div>

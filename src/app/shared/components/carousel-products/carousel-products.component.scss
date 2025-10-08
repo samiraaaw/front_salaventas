@@ -1,0 +1,51 @@
+.institutional-carousel {
+  position: relative;
+  border-radius: 0.75rem;
+  background-color: #f8f9fa; // tono neutro claro
+  padding: 1rem;
+
+  .carousel-inner {
+    .carousel-item {
+      transition: transform 0.6s ease-in-out;
+    }
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 3.5%;
+    background-color: rgba(33, 37, 41, 0.1); // gris oscuro translúcido
+    border-radius: 50%;
+    height: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: rgba(33, 37, 41, 0.25);
+    }
+
+    span {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(1);
+    background-size: 1rem 1rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}

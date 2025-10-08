@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Variables de tipografía
+$font-primary: 'Roboto', sans-serif;
+
+// Mixin para definir estilos tipográficos
+@mixin typography($size, $weight: 400) {
+  font-family: $font-primary;
+  font-size: $size;
+  line-height: 1.5;
+  font-weight: $weight;
+}
+
+// Tipografías para desktop
+.heading-xl {
+  @include typography(48px, 700);
+}
+
+.heading-l {
+  @include typography(36px, 500);
+}
+
+.heading-m {
+  @include typography(31px, 500);
+}
+
+.heading-s {
+  @include typography(19px, 500);
+}
+
+.body-l {
+  @include typography(24px, 700);
+}
+
+.body-l-bold {
+    @include typography(24px, 700);
+  }
+
+.body-m {
+  @include typography(19px, 400);
+}
+
+.body-m-bold {
+  @include typography(19px, 700);
+}
+
+.body-s {
+  @include typography(16px, 400);
+}
+
+.body-s-bold {
+  @include typography(16px, 700);
+}
+
+.body-xs {
+  @include typography(14px, 400);
+}
+
+.body-xs-bold {
+  @include typography(14px, 700);
+}
+
+.body-button {
+    @include typography(19px, 500);
+}
+
+.body-button-bold {
+    @include typography(19px, 700);
+}
+
+.body-button-small {
+    @include typography(16px, 500);
+}
+
+.body-button-small-bold {
+    @include typography(16px, 700);
+}
+
+.body-link {
+    @include typography(1.1875rem, 500);
+}
+
+.body-link-bold {
+    @include typography(1.1875rem, 500);
+}
+
+.body-link-small {
+    @include typography(1rem, 400);
+}
+
+.body-link-small-bold {
+    @include typography(1rem, 700);
+  }
+
+  
+
+
+
+// Estilos para Mobile
+@media (max-width: 768px) {
+  .heading-xl {
+    @include typography(32px, 400);
+  }
+  .heading-l {
+    @include typography(24px, 500);
+  }
+  .heading-m {
+    @include typography(18px, 500);
+  }
+  .heading-s {
+    @include typography(16px, 500);
+  }
+  .body-l {
+    @include typography(18px, 500);
+  }
+  .body-l-bold {
+    @include typography(18px, 700);
+  }
+  .body-m {
+    @include typography(16px, 400);
+  }
+  .body-m-bold {
+    @include typography(16px, 700);
+  }
+  .body-s {
+    @include typography(14px, 400);
+  }
+  .body-s-bold {
+    @include typography(14px, 700);
+  }
+  .body-xs {
+    @include typography(12px, 400);
+  }
+  .body-xs-bold {
+    @include typography(12px, 700);
+  }
+  .body-button {
+    @include typography(1rem, 500);
+  }
+  .body-button-bold {
+    @include typography(1.6rem, 500);
+  }
+  .body-button-small {
+    @include typography(1rem, 500);
+  }
+  .body-button-small-bold {
+    @include typography(1.6rem, 500);
+  }
+  .body-link {
+    @include typography(1rem, 500);
+  }
+  .body-link-bold {
+    @include typography(1.1875rem, 500);
+  }
+  .body-link-small {
+    @include typography(1rem, 400);
+  }
+  .body-link-small-bold {
+    @include typography(1rem, 700);
+  }
+}
