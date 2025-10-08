@@ -699,111 +699,421 @@ $transition: all 0.3s ease;
 
 // SweetAlert2 Custom Styles
 :host ::ng-deep {
-  .swal-wide {
-    width: 600px !important;
-    max-width: 95%;
+  // Popup moderno
+  .swal-modern-popup {
+    border-radius: 20px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+
+    .swal2-icon {
+      margin: 2rem auto 1rem !important;
+    }
   }
 
-  .swal-extra-wide {
-    width: 700px !important;
-    max-width: 95%;
+  // Título moderno
+  .swal-modern-title {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    padding: 1.5rem 2rem 1rem !important;
+    color: #212529 !important;
+    margin: 0 !important;
+
+    i {
+      margin-right: 0.5rem;
+    }
   }
 
-  .swal2-popup {
-    border-radius: 16px !important;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+  // Contenedor HTML
+  .swal-modern-html {
+    padding: 0 2rem 2rem !important;
+    margin: 0 !important;
+  }
 
-    .swal2-title {
-      font-size: 1.75rem !important;
-      font-weight: 700 !important;
-      padding: 1rem 1.5rem 0 !important;
+  // Botones modernos
+  .swal-btn {
+    padding: 0.875rem 2rem !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    min-width: 140px !important;
+    justify-content: center !important;
+
+    i {
+      font-size: 1.1rem !important;
     }
 
-    .swal2-html-container {
-      margin: 1rem 0 !important;
-      font-size: 1rem !important;
-      line-height: 1.6 !important;
-    }
+    &.swal-btn-primary {
+      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
 
-    .swal2-input {
-      border: 2px solid $border !important;
-      border-radius: 8px !important;
-      padding: 0.75rem !important;
-      font-size: 1rem !important;
-      transition: $transition !important;
+      &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4) !important;
+      }
 
-      &:focus {
-        border-color: $primary !important;
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1) !important;
-        outline: none !important;
+      &:active {
+        transform: translateY(0) !important;
       }
     }
 
-    .btn {
-      padding: 0.75rem 1.5rem !important;
-      border-radius: 8px !important;
-      font-weight: 600 !important;
-      font-size: 1rem !important;
-      transition: $transition !important;
-      border: none !important;
-      cursor: pointer !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 0.5rem !important;
+    &.swal-btn-success {
+      background: linear-gradient(135deg, #198754 0%, #146c43 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3) !important;
 
-      &.btn-primary {
-        background: $primary !important;
-        color: $white !important;
+      &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(25, 135, 84, 0.4) !important;
+      }
+    }
 
-        &:hover {
-          background: darken($primary, 10%) !important;
-          transform: translateY(-2px) !important;
-          box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important;
+    &.swal-btn-secondary {
+      background: #f8f9fa !important;
+      color: #212529 !important;
+      border: 2px solid #dee2e6 !important;
+
+      &:hover {
+        background: #e9ecef !important;
+        border-color: #6c757d !important;
+      }
+    }
+
+    &.swal-btn-outline {
+      background: transparent !important;
+      color: #0d6efd !important;
+      border: 2px solid #0d6efd !important;
+
+      &:hover {
+        background: rgba(13, 110, 253, 0.1) !important;
+      }
+    }
+  }
+
+  // Contenido profesional de reserva
+  .swal-professional-content {
+    text-align: center;
+
+    .swal-main-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #6c757d;
+      margin-bottom: 1.5rem;
+
+      strong {
+        color: #0d6efd;
+        font-weight: 600;
+      }
+    }
+
+    .swal-product-card {
+      background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 110, 253, 0.02) 100%);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 2px solid rgba(13, 110, 253, 0.1);
+
+      .product-preview {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: left;
+
+        img {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          border-radius: 12px;
+          background: white;
+          padding: 0.5rem;
+          flex-shrink: 0;
+        }
+
+        .product-info {
+          flex: 1;
+
+          h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 0.5rem 0;
+          }
+
+          .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #198754;
+            margin: 0 0 0.5rem 0;
+          }
+
+          .product-location {
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin: 0;
+
+            i {
+              color: #dc3545;
+              margin-right: 0.25rem;
+            }
+          }
         }
       }
+    }
 
-      &.btn-success {
-        background: $success !important;
-        color: $white !important;
-
-        &:hover {
-          background: darken($success, 10%) !important;
-          transform: translateY(-2px) !important;
-          box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3) !important;
-        }
-      }
-
-      &.btn-outline-secondary {
-        background: transparent !important;
-        border: 2px solid $border !important;
-        color: $dark !important;
-
-        &:hover {
-          border-color: $secondary !important;
-          color: $secondary !important;
-          background: rgba(108, 117, 125, 0.05) !important;
-        }
-      }
-
-      &.btn-outline-info {
-        background: transparent !important;
-        border: 2px solid $info !important;
-        color: $info !important;
-
-        &:hover {
-          background: $info !important;
-          color: $white !important;
-        }
-      }
+    .swal-info-box {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.05) 100%);
+      border-left: 4px solid #ffc107;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      text-align: left;
 
       i {
-        font-size: 1.1rem !important;
+        color: #ffc107;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+      }
+
+      div {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #664d03;
+
+        strong {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  // Formulario profesional
+  .swal-form-professional {
+    text-align: left;
+
+    .form-group {
+      margin-bottom: 1.25rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #212529;
+        font-size: 0.95rem;
+
+        i {
+          color: #0d6efd;
+          margin-right: 0.5rem;
+        }
+      }
+
+      .swal2-input {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.875rem 1rem !important;
+        border: 2px solid #dee2e6 !important;
+        border-radius: 10px !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
+
+        &:focus {
+          border-color: #0d6efd !important;
+          box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1) !important;
+          outline: none !important;
+        }
+
+        &::placeholder {
+          color: #adb5bd !important;
+        }
       }
     }
 
-    .swal2-actions {
-      margin: 1.5rem 0 0.5rem !important;
-      gap: 0.75rem !important;
+    .form-checkbox {
+      margin-bottom: 1.25rem;
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+
+        &:hover {
+          background: #e9ecef;
+          border-color: rgba(13, 110, 253, 0.2);
+        }
+
+        input[type="checkbox"] {
+          margin-right: 0.875rem;
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+          accent-color: #0d6efd;
+        }
+
+        span {
+          font-size: 0.95rem;
+          color: #212529;
+          font-weight: 500;
+
+          i {
+            color: #6c757d;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .representative-fields {
+      background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 110, 253, 0.03) 100%);
+      padding: 1.25rem;
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      border: 2px solid rgba(13, 110, 253, 0.2);
+
+      .representative-header {
+        font-size: 0.95rem;
+        color: #212529;
+        font-weight: 600;
+        margin-bottom: 1rem;
+
+        i {
+          color: #0d6efd;
+          margin-right: 0.5rem;
+        }
+      }
+
+      .form-group {
+        margin-bottom: 0.875rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .swal-info-email {
+      background: linear-gradient(135deg, rgba(13, 202, 240, 0.15) 0%, rgba(13, 202, 240, 0.05) 100%);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      border: 2px solid rgba(13, 202, 240, 0.2);
+
+      i {
+        color: #0dcaf0;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+      }
+
+      div {
+        strong {
+          display: block;
+          font-size: 0.95rem;
+          color: #055160;
+          margin-bottom: 0.5rem;
+        }
+
+        ul {
+          margin: 0;
+          padding-left: 1.25rem;
+          font-size: 0.9rem;
+          color: #0a6e82;
+          line-height: 1.6;
+
+          li {
+            margin-bottom: 0.25rem;
+          }
+        }
+      }
     }
   }
+
+  // Contenido de confirmación
+  .swal-confirmation-content {
+    text-align: center;
+
+    .confirmation-code-section {
+      background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      color: white;
+      box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
+
+      .code-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+        opacity: 0.95;
+      }
+
+      .reservation-code {
+        background: rgba(255, 255, 255, 0.25);
+        padding: 1.25rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        backdrop-filter: blur(10px);
+        font-size: 2.25rem;
+        font-weight: 700;
+        letter-spacing: 6px;
+        font-family: 'Courier New', monospace;
+      }
+
+      .code-instruction {
+        margin: 0;
+        font-size: 0.95rem;
+        opacity: 0.9;
+      }
+    }
+
+    .reservation-details {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.05) 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      border: 2px solid rgba(255, 193, 7, 0.2);
+
+      .details-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #664d03;
+        margin: 0 0 1rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        i {
+          color: #ffc107;
+        }
+      }
+
+      .detail-item {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
+      span {
+        text-align: left !important;
+      }
+    }
+  }
+}
 }

@@ -172,58 +172,56 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  // Reservar producto con formulario completo
+// Reservar producto con formulario completo
   reservar(): void {
     if (!this.product) return;
 
     Swal.fire({
-      title: '¿Reservar este producto?',
+      title: '<i class="bi bi-bookmark-fill" style="color: #0d6efd;"></i> Reservar Producto',
       html: `
-        <div style="text-align: center; padding: 1rem;">
-          <p style="font-size: 1rem; color: #495057; margin-bottom: 1.5rem; line-height: 1.6;">
-            La reserva tiene una duración de <strong style="color: #0d6efd;">2 días hábiles</strong>.<br>
-            Deberás acudir a la sucursal correspondiente para verlo o adquirirlo.<br>
-            Si no lo haces, el producto volverá a estar disponible para otros usuarios.
+        <div class="swal-professional-content">
+          <p class="swal-main-text">
+            La reserva tiene una duración de <strong>2 días hábiles</strong>.<br>
+            Deberás acudir a la sucursal correspondiente para verlo o adquirirlo.
           </p>
 
-          <div style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
-              <img src="${this.product.image}" alt="${this.product.name}" 
-                   style="width: 80px; height: 80px; object-fit: contain; border-radius: 8px; background: white; padding: 0.5rem;">
-              <div style="text-align: left;">
-                <h5 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; color: #212529;">${this.product.name}</h5>
-                <p style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #198754;">${this.formatPrice(this.product.price)}</p>
+          <div class="swal-product-card">
+            <div class="product-preview">
+              <img src="${this.product.image}" alt="${this.product.name}">
+              <div class="product-info">
+                <h5>${this.product.name}</h5>
+                <p class="product-price">${this.formatPrice(this.product.price)}</p>
+                <p class="product-location">
+                  <i class="bi bi-geo-alt-fill"></i> ${this.product.sucursal}
+                </p>
               </div>
             </div>
-            <p style="margin: 0; font-size: 0.95rem; color: #6c757d;">
-              <i class="bi bi-geo-alt-fill" style="color: #dc3545;"></i> <strong>Sucursal:</strong> ${this.product.sucursal}
-            </p>
           </div>
 
-          <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem; border-radius: 4px; text-align: left;">
-            <p style="margin: 0; font-size: 0.9rem; color: #856404; line-height: 1.5;">
-              <i class="bi bi-info-circle-fill"></i> Al confirmar, recibirás un <strong>código de reserva único</strong> 
-              por correo electrónico que deberás presentar en la sucursal.
-            </p>
+          <div class="swal-info-box">
+            <i class="bi bi-info-circle-fill"></i>
+            <div>
+              <strong>Importante:</strong> Recibirás un código de reserva único por correo electrónico 
+              que deberás presentar en la sucursal.
+            </div>
           </div>
         </div>
       `,
-      icon: 'warning',
-      iconColor: '#ffc107',
-      width: '550px',
+      width: '600px',
       showCancelButton: true,
-      confirmButtonText: '<i class="bi bi-check-lg"></i> Sí, reservar por 2 días',
-      cancelButtonText: '<i class="bi bi-x-lg"></i> Cancelar',
+      confirmButtonText: '<i class="bi bi-check-circle-fill"></i> Confirmar Reserva',
+      cancelButtonText: '<i class="bi bi-x-circle"></i> Cancelar',
       reverseButtons: true,
       customClass: {
-        popup: 'swal-modern',
-        confirmButton: 'btn btn-primary btn-lg',
-        cancelButton: 'btn btn-outline-secondary btn-lg'
+        popup: 'swal-modern-popup',
+        title: 'swal-modern-title',
+        htmlContainer: 'swal-modern-html',
+        confirmButton: 'swal-btn swal-btn-primary',
+        cancelButton: 'swal-btn swal-btn-secondary'
       },
       buttonsStyling: false
     }).then((result) => {
       if (result.isConfirmed) {
-        // Mostrar formulario de datos
         this.mostrarFormularioReserva();
       }
     });
